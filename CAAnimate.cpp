@@ -60,9 +60,11 @@ public:
         StepCounter++;
     }
 
-    // Input: 
+    // Sets a set number of randomly located living cells onto the grid
     void SetRandomLiveCells(emp::Random random) {
-        for (int i = 0; i < 20; i++){
+        int num_of_starting_cells = 20;
+
+        for (int i = 0; i < num_of_starting_cells; i++){
             int random_x = random.GetInt(0, (num_w_boxes - 1));
             int random_y = random.GetInt(0, (num_h_boxes - 1));
 
@@ -70,6 +72,7 @@ public:
         }
     }
 
+    // Sets the initial grid of live cells to start the 180-degree Kickback pattern
     void Set180Kickback() {
         cells[7][2] = 1;
         cells[6][3] = 1;
@@ -85,16 +88,17 @@ public:
         cells[8][9] = 1;
     }
 
+    // Function draws cells onto the canvas where pink cells are dead and green are alive
     void DrawCells() {
         for (int x = 0; x < num_w_boxes; x++){
             for (int y = 0; y < num_h_boxes; y++) {
 
                if (cells[x][y] == 0) {
-                   //Draw a rectangle on the canvas filled with white and outlined in black
+                   //Draw a rectangle on the canvas filled with pink and outlined in black
                    canvas.Rect(x * RECT_SIDE, y * RECT_SIDE, RECT_SIDE, RECT_SIDE, "pink", "black");
                    canvas.CenterText((x * RECT_SIDE) + 10, (y * RECT_SIDE) + 10, std::to_string(x)+","+std::to_string(y), "black", "black");
                } else {
-                   //Draw a rectangle filled with black
+                   //Draw a rectangle filled with green and outlined in black
                    canvas.Rect(x * RECT_SIDE, y * RECT_SIDE, RECT_SIDE, RECT_SIDE, "green", "black");
                    canvas.CenterText((x * RECT_SIDE) + 10, (y * RECT_SIDE) + 10, std::to_string(x)+","+std::to_string(y), "black", "black");
                }
@@ -103,6 +107,7 @@ public:
        }
     }   
 
+    // Function updates individual cell based on Game of Life rules
     void UpdateCells() {
         for (int x = 0; x < num_w_boxes; x++){
             for (int y = 0; y < num_h_boxes; y++) {
@@ -155,6 +160,7 @@ public:
         DrawCells();
     }
 
+    // Retrieves the total number of "living" cells around an individual cell using the Von Neumann Neighborhood configuration
     int GetNeighborhoodStatus(int x, int y){
         int NumLivingNeighbors = 0;
 
